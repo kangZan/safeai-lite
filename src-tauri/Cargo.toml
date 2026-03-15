@@ -1,0 +1,36 @@
+[package]
+name = "safeai-lite"
+version = "1.0.0"
+description = "SafeAI-Lite 数据脱敏工具 v1.0"
+authors = ["SafeAI"]
+edition = "2021"
+
+[lib]
+name = "safeai_lite_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+tauri-plugin-dialog = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = "0.4"
+uuid = { version = "1", features = ["v4"] }
+regex = "1.10"
+rusqlite = { version = "0.31", features = ["bundled"] }
+once_cell = "1.19"
+dirs = "5.0"
+# 文件处理依赖
+docx-rs = "0.4"
+calamine = { version = "0.24", features = ["dates"] }
+rust_xlsxwriter = "0.64"
+printpdf = "0.7"
+encoding_rs = "0.8"
+# NER 识别依赖
+ort = { version = "=2.0.0-rc.12", features = ["load-dynamic"] }
+tokenizers = { version = "0.21", default-features = false, features = ["onig"] }
+ndarray = "0.17"

@@ -1,0 +1,45 @@
+# ===== 前端依赖 =====
+node_modules/
+dist/
+.vite/
+
+# ===== Rust / Tauri 构建产物 =====
+src-tauri/target/
+# gen 目录由 Tauri 构建自动生成
+src-tauri/gen/
+
+# ===== NER 模型与运行时（体积大，通过其他渠道分发）=====
+src-tauri/ner/*.onnx
+src-tauri/ner/*.dll
+
+# ===== 用户数据（SQLite 数据库，本地运行时产生）=====
+*.db
+*.db-shm
+*.db-wal
+
+# ===== 环境变量 / 密钥 =====
+.env
+.env.local
+.env.*.local
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===== 临时脚本（开发过程中产生的一次性修复脚本）=====
+src-tauri/fix_db.py
+src-tauri/fix_migrate.py
+fix_db.py
+fix_migrate.py
+
+# ===== 安装包 / 可执行文件 =====
+*.exe
+*.msi
+*.deb
+*.AppImage
+src-tauri/target/release/bundle/

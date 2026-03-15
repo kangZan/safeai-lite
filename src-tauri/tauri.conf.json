@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SafeAI-Lite",
+  "version": "1.0.0",
+  "identifier": "com.safeai.lite",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "SafeAI-Lite 数据脱敏工具 v1.0",
+        "width": 1280,
+        "height": 820,
+        "minWidth": 960,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "dragDropEnabled": true,
+        "windowEffects": {
+          "effects": []
+        }
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/icon.ico",
+      "icons/icon.png"
+    ],
+    "resources": {
+      "ner/*": "ner/"
+    },
+    "shortDescription": "轻量级本地数据脱敏工具",
+    "longDescription": "SafeAI-Lite 是一款轻量级本地数据脱敏工具，帮助用户在使用云端 AI 前自动隐藏敏感信息，并在获取结果后还原真实内容。全程本地处理，无需联网。",
+    "category": "Utility",
+    "copyright": "Copyright \u00a9 2026 SafeAI"
+  }
+}
