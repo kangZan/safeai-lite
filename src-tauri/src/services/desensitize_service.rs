@@ -119,7 +119,8 @@ pub fn desensitize(input: DesensitizeInput) -> Result<DesensitizeResult, String>
 
 /// 基于原文位置的安全替换：先定位所有匹配，从右向左替换，防止占位符被后续替换污染
 /// （例如：先替换银行卡号生成 [银行账户/卡号_1]，再替换"银行"时不会破坏占位符内容）
-fn replace_by_position(
+/// pub(crate) 供 batch_service 复用，保持全局计数器跨文件共享
+pub(crate) fn replace_by_position(
     content: &str,
     items: &[crate::models::session::DesensitizeItem],
     entity_counters: &mut HashMap<String, usize>,

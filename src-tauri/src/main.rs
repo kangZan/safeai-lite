@@ -44,6 +44,14 @@ fn main() {
             commands::session::session_get_by_id,
             commands::session::session_delete,
             commands::session::session_clear_all,
+            // 批量脱敏命令（v0.2.0）
+            commands::batch::batch_scan_folder,
+            commands::batch::batch_scan,
+            commands::batch::batch_execute,
+            commands::batch::batch_export,
+            commands::batch::batch_restore,
+            commands::batch::batch_session_get_all,
+            commands::batch::batch_session_delete,
         ])
         .setup(|app| {
             // 设置窗口图标（开发模式和发布模式均生效）

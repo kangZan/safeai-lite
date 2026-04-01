@@ -5,6 +5,7 @@ import {
   SafetyOutlined,
   LockOutlined,
   SettingOutlined,
+  AppstoreOutlined,
 } from '@ant-design/icons';
 
 const COMING_SOON = '基础版暂不支持，敬请期待';
@@ -14,6 +15,12 @@ const items = [
     key: '/desensitize',
     icon: <ThunderboltOutlined />,
     label: '文案脱敏',
+    disabled: false,
+  },
+  {
+    key: '/batch',
+    icon: <AppstoreOutlined />,
+    label: '批量脱敏',
     disabled: false,
   },
   {

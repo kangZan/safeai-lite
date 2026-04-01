@@ -127,13 +127,19 @@ fn export_xlsx(content: &str, path: &Path) -> Result<(), ExportError> {
         
         // 解析表格行（| col1 | col2 | 格式）
         if line.contains('|') {
-            let cells: Vec<&str> = line.split('|')
-                .map(|c| c.trim())
-                .filter(|c| !c.is_empty())
-                .collect();
-            
+            // split('|') 在首尾 | 处产生空字符串，跳过首尾，保留中间（含空单元格）
+            let parts: Vec<&str> = line.split('|').collect();
+            let cells: Vec<&str> = if parts.len() >= 2 {
+                parts[1..parts.len() - 1].iter().map(|c| c.trim()).collect()
+            } else {
+                parts.iter().map(|c| c.trim()).collect()
+            };
+
             for (col, cell_value) in cells.iter().enumerate() {
-                let _ = worksheet.write_string(current_sheet_row, col as u16, *cell_value);
+                if !cell_value.is_empty() {
+                    let _ = worksheet.write_string(current_sheet_row, col as u16, *cell_value);
+                }
+                // 空单元格：不写入，Excel 自然留空，列位置保持对齐
             }
             current_sheet_row += 1;
         } else {

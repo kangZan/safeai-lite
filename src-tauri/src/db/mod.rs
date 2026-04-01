@@ -104,6 +104,69 @@ fn create_tables(conn: &Connection) -> Result<()> {
         [],
     )?;
 
+    // ── v0.2.0 批量脱敏表 ──────────────────────────────────────
+
+    // 批量会话主表
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS batch_sessions (
+            id            TEXT PRIMARY KEY,
+            name          TEXT NOT NULL,
+            mapping_count INTEGER NOT NULL DEFAULT 0,
+            file_count    INTEGER NOT NULL DEFAULT 0,
+            success_count INTEGER NOT NULL DEFAULT 0,
+            created_at    TEXT NOT NULL,
+            updated_at    TEXT NOT NULL
+        )",
+        [],
+    )?;
+
+    // 批量会话下的单文件结果
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS batch_files (
+            id                   TEXT PRIMARY KEY,
+            batch_session_id     TEXT NOT NULL,
+            filename             TEXT NOT NULL,
+            relative_path        TEXT NOT NULL,
+            file_type            TEXT NOT NULL,
+            desensitized_content TEXT NOT NULL DEFAULT '',
+            status               TEXT NOT NULL DEFAULT 'success'
+                                 CHECK(status IN ('success','failed')),
+            error_msg            TEXT,
+            created_at           TEXT NOT NULL,
+            FOREIGN KEY (batch_session_id) REFERENCES batch_sessions(id) ON DELETE CASCADE
+        )",
+        [],
+    )?;
+
+    // 批量脱敏映射表（统一映射，不挂 sessions 表）
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS batch_mappings (
+            id               TEXT PRIMARY KEY,
+            batch_session_id TEXT NOT NULL,
+            placeholder      TEXT NOT NULL,
+            original_value   TEXT NOT NULL,
+            entity_name      TEXT NOT NULL,
+            created_at       TEXT NOT NULL,
+            FOREIGN KEY (batch_session_id) REFERENCES batch_sessions(id) ON DELETE CASCADE
+        )",
+        [],
+    )?;
+
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_batch_files_session ON batch_files(batch_session_id)",
+        [],
+    )?;
+
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_batch_mappings_session ON batch_mappings(batch_session_id)",
+        [],
+    )?;
+
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_batch_sessions_created ON batch_sessions(created_at DESC)",
+        [],
+    )?;
+
     Ok(())
 }
 

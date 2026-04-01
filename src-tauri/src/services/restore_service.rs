@@ -33,7 +33,7 @@ fn get_mappings(session_id: &str) -> Result<Vec<(String, String)>, String> {
     mappings.collect::<Result<Vec<_>, _>>().map_err(|e| e.to_string())
 }
 
-fn perform_restore(content: &str, mappings: &[(String, String)]) -> Result<String, String> {
+pub(crate) fn perform_restore(content: &str, mappings: &[(String, String)]) -> Result<String, String> {
     let mut result = content.to_string();
     
     // 按占位符长度降序排序，避免短占位符干扰长占位符
